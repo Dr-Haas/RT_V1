@@ -288,28 +288,37 @@ double	ft_intersectcone(t_ray r)
 ** 		t = ft_intersectdisk(r, o);
 */
 
-double	ft_intersect(t_env *e, t_ray ray, t_obj *ahit_obj)
+double	ft_intersect(t_env *e, t_ray ray_ws, t_object ahit_obj)
 {
-	double	t[2];
-	t_obj	o;
-	t_ray	oray;
 
-	t[1] = INFINITY;
-	while (i )//lobj)
+	t_object	o;
+	t_ray		ray_os;
+	int 		i;
+
+
+	i = 0;
+	ray_os.t = ray_ws.t;
+	while (i < e->lobj_len)
 	{
-//		o = *((t_obj*)lobj->content);
-		oray.origin = ft_vtom4b4(ray.origin, o.wtoo);
-		oray.dir = ft_vtom3b3(ray.dir, o.linear_wtoo);
-		!ft_strcmp(o.type, "sphere") ? t[0] = ft_intersectsphere(oray) : 1;
-		!ft_strcmp(o.type, "plane") ? t[0] = ft_intersectplane(oray) : 1;
-		!ft_strcmp(o.type, "cylinder") ? t[0] = ft_intersectcylinder(oray) : 1;
-		!ft_strcmp(o.type, "cone") ? t[0] = ft_intersectcone(oray) : 1;
-		if (EPSILON < t[0] && t[0] < t[1])
+
+		ray_os.origin = ft_vtom4b4(ray_ws.origin, o.wtoo);
+		ray_os.dir = ft_vtom3b3(ray_ws.dir, o.linear_wtoo);
+		if (ft_strcmp(o.type, "sphere"))
+			ray_os.t = ft_intersectsphere(ray_os);
+		else if (ft_strcmp(o.type, "plane")) 
+			ray_os.t = ft_intersectplane(ray_os);
+		else if (ft_strcmp(o.type, "cylinder")) 
+			ray_os.t = ft_intersectcylinder(ray_os);
+		else if (ft_strcmp(o.type, "cone")) 
+			ray_os.t = ft_intersectcone(ray_os);
+
+		if (EPSILON < ray_os.t && ray_os.t < ray_ws.t)
 		{
-			t[1] = t[0];
-			*ao = o;
+			ray_ws.t = ray_os.t;
+			ao = o;
 		}
-//		lobj = lobj->next;
+
+
 	}
-	return (t[1]);
+	return (ray_ws.t);
 }

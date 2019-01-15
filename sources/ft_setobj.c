@@ -24,7 +24,7 @@
 ** 	ft_putchar('\n');
 */
 
-void	ft_initobject(t_obj *o)
+void	ft_initobject(t_object *o)
 {
 	t_m3b3	rmat;
 	t_m3b3	tmat;
@@ -56,7 +56,7 @@ void	ft_initobject(t_obj *o)
 ** 	ao->d = ft_vrotxyz(ao->d, ao->rot);
 */
 
-void	ft_setobjvar(char *line, t_obj *ao)
+void	ft_setobjvar(char *line, t_object *ao)
 {
 	if (!ft_strncmp(line, "type=", 5))
 		ao->type = ft_strsub(line, 6, ft_strlen(line) - 8);
@@ -70,7 +70,7 @@ void	ft_setobjvar(char *line, t_obj *ao)
 		ao->rot = ft_vmul(ao->rot, PI / 180);
 	}
 	else if (!ft_strncmp(line, "color={", 7))
-		ft_vfill(&ao->rgb.x, &ao->rgb.y, &ao->rgb.z, line);
+		ft_vfill(&ao->rgb.red, &ao->rgb.green, &ao->rgb.blue, line);
 	return ;
 }
 
@@ -78,7 +78,7 @@ void	ft_setobjvar(char *line, t_obj *ao)
 ** Set object structure according to file copy
 */
 
-int		ft_setobj(char **fc, t_obj *ao)
+int		ft_setobj(char **fc, t_object *ao)
 {
 	int		i;
 

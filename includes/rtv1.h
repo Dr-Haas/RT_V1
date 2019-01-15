@@ -31,7 +31,7 @@
 ** used to rotate our polar camera around its anchor
 */
 
-typedef struct	s_cam
+typedef struct	s_camera
 {
 	double		fov;
 	t_vec		anchor;
@@ -46,7 +46,7 @@ typedef struct	s_cam
 	t_vec		zaxis;
 	t_m4b4		ctow;
 	t_m4b4		wtoc;
-}				t_cam;
+}				t_camera;
 
 /*
 ** This light structure contain all variables used to illuminate the scene
@@ -57,7 +57,7 @@ typedef struct	s_light
 	double		lum;
 	t_vec		rgb;
 	t_vec		origin;
-}				t_lig;
+}				t_light;
 
 /*
 ** This rgb structure contain all variables used to illuminate the scene
@@ -73,7 +73,7 @@ typedef	struct s_rgb
 ** This object structure contain all variables used to interpret and draw objects
 */
 
-typedef struct	s_obj
+typedef struct	s_object
 {
 	char		*type;
 	t_vec		scale;
@@ -86,7 +86,7 @@ typedef struct	s_obj
 	t_m4b4		wtoo;
 	t_m3b3		ntow;
 	t_rgb       rgb;
-}				t_obj;
+}				t_object;
 
 
 /*
@@ -107,10 +107,10 @@ typedef struct	s_env
 	int			pa;
 	int			pb;
 	int			pc;
-	t_cam       cam;
-	t_lig		llight[10];
+	t_camera       cam;
+	t_light		llight[10];
 	int			llight_len;
-	t_obj		lobj[30];
+	t_object		lobj[30];
 	int			lobj_len;
 
 }				t_env;
@@ -164,14 +164,14 @@ typedef struct	s_cal
 }				t_cal;
 
 t_env			*ft_getenv(void);
-int				ft_setobj(char **fc, t_obj *ao);
+int				ft_setobj(char **fc, t_object *ao);
 int				ft_setenv(char *file);
 void			ft_lfill(t_list **alst, void const *c, size_t cs);
 char			**ft_filecopy(char *file, int i, int exp);
 int				ft_filecheck(char *file);
 void			ft_putenv(void);
-double			ft_intersect(t_env *e, t_ray r, t_obj *ao);
+double			ft_intersect(t_env *e, t_ray r, t_object *ao);
 void			ft_drawscene(void);
-t_vec			ft_getcolor(t_obj obj, t_ray ray_os, t_lig light);
+t_vec			ft_getcolor(t_object obj, t_ray ray_os, t_light light);
 
 #endif

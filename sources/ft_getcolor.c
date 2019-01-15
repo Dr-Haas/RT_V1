@@ -37,7 +37,7 @@ unsigned int 	color_app_lum(t_vec rgb)
 ** and fixed it to the object.
 */
 
-t_vec	ft_get_diff_spec(t_obj *obj, t_ray *iray, t_lig *light)
+t_vec	ft_get_diff_spec(t_object *obj, t_ray *iray, t_light *light)
 {
 	t_shader shader;
 
@@ -55,7 +55,7 @@ t_vec	ft_get_diff_spec(t_obj *obj, t_ray *iray, t_lig *light)
 ** get the value of the objetc color and fixed it
 */
 
-t_vec	ft_fixed_obj_color(t_obj *obj, t_lig *light)
+t_vec	ft_fixed_obj_color(t_object *obj, t_light *light)
 {
 	t_shader	shader;
 
@@ -68,7 +68,7 @@ t_vec	ft_fixed_obj_color(t_obj *obj, t_lig *light)
 	return (shader);
 }
 
-t_vec	ft_get_shader(t_obj *obj, t_ray *iray_os)
+t_vec	ft_get_shader(t_object *obj, t_ray *iray_os)
 {
 	t_shader shader;
 
@@ -91,7 +91,7 @@ t_vec	ft_get_shader(t_obj *obj, t_ray *iray_os)
 	return (shader);
 }
 
-t_vec	ft_get_color(t_obj obj, t_ray iray_os, t_lig light)
+t_vec	ft_get_color(t_obj object, t_ray iray_os, t_light light)
 {
 	t_vec		result;
 	t_shader	shader;

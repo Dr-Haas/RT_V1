@@ -39,7 +39,7 @@ int		ft_setscene(char **fc, t_env *e)
 ** Set camera structure according to file copy
 */
 
-int		ft_setcam(char **fc, t_cam *ac)
+int		ft_setcam(char **fc, t_camera *ac)
 {
 	int		i;
 
@@ -71,7 +71,7 @@ int		ft_setcam(char **fc, t_cam *ac)
 ** Set light structure according to file copy
 */
 
-int		ft_setlig(char **fc, t_lig *al)
+int		ft_setlig(char **fc, t_light *al)
 {
 	int		i;
 

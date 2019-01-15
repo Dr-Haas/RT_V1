@@ -57,7 +57,7 @@ int		ft_exit(t_env *e)
 ** 	James Kajiya
 */
 
-void	ft_rtv1(void)
+void	ft_render(void)
 {
 	t_env	*e;
 
@@ -86,7 +86,7 @@ int		main(int argc, char **argv)
 		if (!ft_setenv(argv[1]))
 			exit(1);
 		ft_putenv();
-		ft_rtv1();
+		ft_render();
 	}
 	return (0);
 }

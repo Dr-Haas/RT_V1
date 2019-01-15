@@ -39,7 +39,7 @@ void	ft_putcoor(char *str, t_vec v)
 ** Print camera
 */
 
-void	ft_putcam(t_cam c)
+void	ft_put_camera(t_camera c)
 {
 	ft_putstr("\033[31;1mcamera\033[0m\n{\n\tfov\t\t= ");
 	ft_putnbr(c.fov);
@@ -60,7 +60,7 @@ void	ft_putcam(t_cam c)
 ** Print light
 */
 
-void	ft_putlig(t_lig l)
+void	ft_put_light(t_light l)
 {
 	ft_putstr("\033[33;1mlight\033[0m\n{\n\tluminosity\t= ");
 	ft_putnbr(l.lum);
@@ -75,7 +75,7 @@ void	ft_putlig(t_lig l)
 ** Print object
 */
 
-void	ft_putobj(t_obj o)
+void	ft_put_object(t_object o)
 {
 	t_vec rgb;
 
@@ -94,34 +94,21 @@ void	ft_putobj(t_obj o)
 }
 
 /*
-** Print environment
+** Render environment
 */
 
 void	ft_putenv(void)
 {
-	t_env	*e;
-	t_list	*lcam;
-	t_list	*llight;
-	t_list	*lobj;
+	t_env		*e;
+	int			i;
 
+	i = -1;
 	e = ft_getenv();
-	lcam = e->lcam;
-	llight = e->llight;
-	lobj = e->lobj;
-	while (lcam)
-	{
-		ft_putcam(*((t_cam*)lcam->content));
-		lcam = lcam->next;
-	}
-	while (llight)
-	{
-		ft_putlig(*((t_lig*)llight->content));
-		llight = llight->next;
-	}
-	while (lobj)
-	{
-		ft_putobj(*((t_obj*)lobj->content));
-		lobj = lobj->next;
-	}
+	ft_put_camera(e->cam);
+	while (++i < e->llight_len)
+		ft_put_light(e->llight[i]);
+	i = -1;
+	while (++i < e->lobj_len)
+		ft_put_object(e->lobj[i]);
 	return ;
 }
