@@ -1,0 +1,92 @@
+
+
+scene
+{
+	name		= "Rtv1";
+	width		= 500;
+	height		= 500;
+	precision	= 1;
+}
+
+camera
+{
+	fov			= 90;
+	anchor		= {0, 0, 0};
+	radius		= 50;
+	longitude	= 90;
+	latitude	= 90;
+}
+
+light
+{
+	luminosity	= 100000;
+	origin		= {50, -35, 50};
+	rgb 		= {1.,  1., 1.};
+}
+
+object
+{
+    type        = "sphere";
+    width       = 100;
+    height      = 100;
+    scale       = {1, 1, 1};
+	origin		= {0, 0, 0};
+	rotation	= {0, 0, 0};
+	color		= {255, 255, 0};
+}
+
+object
+{
+    type        = "sphere";
+    width       = 100;
+    height      = 100;
+    scale       = {10, 10, 10};
+    origin      = {10, 0, 0};
+    rotation    = {0, 0, 0};
+    color       = {255, 0, 0};
+}
+
+object
+{
+    type        = "sphere";
+    width       = 100;
+    height      = 100;
+    scale       = {10, 10, 10};
+    origin      = {-10, 0, 30};
+    rotation    = {0, 0, 0};
+    color       = {0, 255, 0};
+}
+
+object
+{
+    type        = "sphere";
+    width       = 100;
+    height      = 100;
+    scale       = {10, 10, 10};
+    origin      = {0, 0, 10};
+    rotation    = {0, 0, 0};
+    color       = {0, 0, 255};
+}
+
+object
+{
+	type       = "plane";
+	width      = 100;
+	height     = 100;
+	origin     = {5, 5, 2};
+	scale      = {10, 10, 10};
+	rotation   = {0, 0, 0};
+	color      = {255, 255, 0};
+}
+
+
+object
+{
+	type      = "plane";
+	width     = 100;
+	height    = 100;
+	origin    = {-50, 10, 50};
+	scale     = {10, 10, 10};
+	rotation  = {0, 0 , 0};
+	color     = {255, 0, 0};
+}

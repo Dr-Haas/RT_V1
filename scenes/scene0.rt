@@ -1,0 +1,60 @@
+
+
+scene
+{
+	name		= "Rtv1";
+	width		= 500;
+	height		= 500;
+	precision	= 4;
+}
+
+camera
+{
+	fov			= 90;
+	anchor		= {0, 0, 0};
+	radius		= 50;
+	longitude	= 90;
+	latitude	= 120;
+}
+
+light
+{
+	luminosity	= 1000000;
+	origin		= {-50, -50, 50};
+}
+
+object
+{
+	type		= "sphere";
+	origin		= {0, 0, 0};
+	scale		= {50, 50, 50};
+	rotation	= {0, 0, 0};
+	color		= {255, 255, 255};
+}
+
+object
+{
+	type		= "cylinder";
+	origin		= {0, 0, 0};
+	scale		= {2, 2, 2};
+	rotation	= {0, 0, 90};
+	color		= {255, 0, 0};
+}
+
+object
+{
+	type		= "cylinder";
+	origin		= {0, 0, 0};
+	scale		= {2, 2, 2};
+	rotation	= {0, 0, 0};
+	color		= {0, 255, 0};
+}
+
+object
+{
+	type		= "cylinder";
+	origin		= {0, 0, 0};
+	scale		= {2, 2, 2};
+	rotation	= {90, 0, 0};
+	color		= {0, 0, 255};
+}

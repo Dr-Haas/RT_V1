@@ -1,0 +1,42 @@
+
+
+scene
+{
+	name		= "Rtv1";
+	width		= 500;
+	height		= 500;
+	precision	= 1;
+}
+
+camera
+{
+	fov			= 90;
+	anchor		= {0, 0, 0};
+	radius		= 50;
+	longitude	= 90;
+	latitude	= 90;
+}
+
+light
+{
+	luminosity	= 1000000;
+	origin		= {-50, -35, 50};
+}
+
+light
+{
+    luminosity  = 1000000;
+    origin      = {50, -35, 50};
+}
+
+object
+{
+	type		= "sphere";
+	width		= 100;
+	height		= 100;
+	scale		= {75, 75, 75};
+	origin		= {0, 0, 0};
+	rotation	= {0, 0, 0};
+	color		= {255, 0, 0};
+}
+
