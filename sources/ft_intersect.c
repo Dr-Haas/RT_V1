@@ -41,10 +41,9 @@ double	ft_intersectsphere(t_ray r)
 {
 	t_cal	c;
 
-	c.radius = 0.5;
 	c.a = ft_vsqrd(r.dir);
 	c.b = 2 * ft_vdot(r.dir, r.origin);
-	c.c = ft_vsqrd(r.origin) - pow(c.radius, 2);
+	c.c = ft_vsqrd(r.origin) - 1.;
 	if ((c.delta = pow(c.b, 2) - 4 * c.a * c.c) > EPSILON)
 	{
 		c.t[0] = (-c.b - sqrt(c.delta)) / (2 * c.a);
@@ -288,19 +287,19 @@ double	ft_intersectcone(t_ray r)
 ** 		t = ft_intersectdisk(r, o);
 */
 
-double	ft_intersect(t_env *e, t_ray ray_ws, t_object ahit_obj)
+int			ft_intersect(t_env *e, t_ray ray_ws, t_object *ahit_obj, t_ray *res_os)
 {
-
 	t_object	o;
 	t_ray		ray_os;
 	int 		i;
+	int 		has_inter;
 
-
-	i = 0;
-	ray_os.t = ray_ws.t;
-	while (i < e->lobj_len)
+	has_inter = 0;
+	i = -1;
+	while (++i < e->lobj_len)
 	{
-
+		o = e->lobj[i];
+		ray_os.t = ray_ws.t;
 		ray_os.origin = ft_vtom4b4(ray_ws.origin, o.wtoo);
 		ray_os.dir = ft_vtom3b3(ray_ws.dir, o.linear_wtoo);
 		if (ft_strcmp(o.type, "sphere"))
@@ -311,14 +310,12 @@ double	ft_intersect(t_env *e, t_ray ray_ws, t_object ahit_obj)
 			ray_os.t = ft_intersectcylinder(ray_os);
 		else if (ft_strcmp(o.type, "cone")) 
 			ray_os.t = ft_intersectcone(ray_os);
-
-		if (EPSILON < ray_os.t && ray_os.t < ray_ws.t)
+		if ((has_inter = has_inter || (EPSILON < ray_os.t && ray_os.t < ray_ws.t)))
 		{
 			ray_ws.t = ray_os.t;
-			ao = o;
+			*res_os = ray_os;
+			*ahit_obj = o;
 		}
-
-
 	}
-	return (ray_ws.t);
+	return (has_inter);
 }

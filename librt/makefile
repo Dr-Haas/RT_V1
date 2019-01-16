@@ -54,8 +54,7 @@ SRCS =		ft_vclr.c \
 			ft_scalemat4b4.c \
 			ft_setmat3b3.c \
 			ft_subblocmat4b4.c \
-			ft_transmat4b4.c \
-			ft_vectomat4b4.c
+			ft_transmat4b4.c
 
 OBJS =		$(SRCS:.c=.o)
 

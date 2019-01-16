@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getcolor.c                                     :+:      :+:    :+:   */
+/*   ft_get_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,24 +11,26 @@
 /* ************************************************************************** */
 
 #include "includes/rtv1.h"
-#include  <stdio.h>
 
 double	ft_fmax(double nb_1, double nb_2)
 {
 	return (nb_1 < nb_2 ? nb_2 : nb_1);
 }
 
+double	ft_fmin(double nb_1, double nb_2)
+{
+	return (nb_1 > nb_2 ? nb_2 : nb_1);
+}
 
 unsigned int 	color_app_lum(t_vec rgb)
 {
-	t_u8		red;
-	t_u8		green;
-	t_u8		blue;
+	unsigned char		red;
+	unsigned char		green;
+	unsigned char		blue;
 
-	red = ft_fmax(0., ft_fmin(255., rgb[0]));  //pas de ft_fmin
-	green = ft_fmax(0., ft_fmin(255., rgb[1]));
-	blue = ft_fmax(0., ft_fmin(255., rgb[2]));
-
+	red = ft_fmax(0., ft_fmin(255., rgb.x));  //pas de ft_fmin
+	green = ft_fmax(0., ft_fmin(255., rgb.y));
+	blue = ft_fmax(0., ft_fmin(255., rgb.z));
 	return (red << 16 | green << 8 | blue);
 }
 
@@ -37,91 +39,68 @@ unsigned int 	color_app_lum(t_vec rgb)
 ** and fixed it to the object.
 */
 
-t_vec	ft_get_diff_spec(t_object *obj, t_ray *iray, t_light *light)
+void	ft_get_spec(t_shader *shader, t_object obj, t_ray iray_os, t_light light)
 {
-	t_shader shader;
-
-	shader.iray_ws_dir = ft_vtom3b3(iray_os.dir, obj.linear_otow);
-	shader.lray.dir = ft_vmul(shader.lray.dir, -1);
-	shader.reflect = ft_vsub(shader.lray.dir, ft_vmul(shader.normal,
-		2 * ft_vdot(shader.lray.dir, shader.normal)));
-	shader.spec = ft_vmul(light.rgb,
-		ft_fmax(0, -ft_vdot(shader.reflect, shader.lray.dir)) * light.lum);
-
-	return (shader);
+	shader->iray_ws_dir = ft_vtom3b3(iray_os.dir, obj.linear_otow);
+	shader->lray.dir = ft_vmul(shader->lray.dir, -1);
+	shader->reflect = ft_vsub(shader->lray.dir, ft_vmul(shader->normal,
+		2 * ft_vdot(shader->lray.dir, shader->normal)));
+	shader->spec = ft_vmul(light.rgb,
+		ft_fmax(0, -ft_vdot(shader->reflect, shader->lray.dir)) * light.lum);
 }
 
 /*
 ** get the value of the objetc color and fixed it
 */
 
-t_vec	ft_fixed_obj_color(t_object *obj, t_light *light)
+void	ft_get_diff(t_shader *shader, t_object obj, t_light light)
 {
-	t_shader	shader;
-
-	shader.diff = ft_vmul(obj.rgb,
-		shader.angle * light.lum * INV_PI / shader.dist_sqrd);
-	shader.diff.x *= light.rgb.x;
-	shader.diff.y *= light.rgb.y;
-	shader.diff.z *= light.rgb.z;
-
-	return (shader);
+	shader->diff = ft_vmul(obj.rgb,
+		shader->angle * light.lum * INV_PI / shader->dist_sqrd);
+	shader->diff.x *= light.rgb.x;
+	shader->diff.y *= light.rgb.y;
+	shader->diff.z *= light.rgb.z;
 }
 
-t_vec	ft_get_shader(t_object *obj, t_ray *iray_os)
+void	ft_get_shader(t_shader *shader, t_object obj, t_ray iray_os)
 {
-	t_shader shader;
-
-	shader.lray.origin = ft_vsum(iray_os.origin, ft_vmul(iray_os.dir, iray_os.t));
+	shader->lray.origin = ft_vsum(iray_os.origin, ft_vmul(iray_os.dir, iray_os.t));
 	if (ft_strcmp(obj.type, "sphere"))
-		shader.normal = shader.lray.origin;
+		shader->normal = shader->lray.origin;
 	else if (ft_strequ(obj.type, "plane"))
-		shader.normal = (t_vec){0, 1, 0};
+		shader->normal = (t_vec){0, 1, 0};
 	else if (ft_strcmp(obj.type, "cylinder")) 
-		shader.normal = (t_vec){shader.lray.origin.x, 0, shader.lray.origin.z};
+		shader->normal = (t_vec){shader->lray.origin.x, 0, shader->lray.origin.z};
 	else if (ft_strcmp(obj.type, "cone"))
-		shader.normal = (t_vec){shader.lray.origin.x, 
-			-shader.lray.origin.y, shader.lray.origin.z}; 
+		shader->normal = (t_vec){shader->lray.origin.x, 
+			-shader->lray.origin.y, shader->lray.origin.z}; 
 	else
-		shader.normal = (t_vec){0, 0, 0};
-	shader.lray.origin = ft_vsum(shader.lray.origin, ft_vmul(shader.normal, EPSILON));
-	shader.lray.origin = ft_vtom4b4(shader.lray.origin, obj.otow);
-	shader.normal = ft_vtom3b3(shader.normal, obj.ntow);
-	shader.normal = ft_vnorm(shader.normal);
-	return (shader);
+		shader->normal = (t_vec){0, 0, 0};
+	shader->lray.origin = ft_vsum(shader->lray.origin, ft_vmul(shader->normal, EPSILON));
+	shader->lray.origin = ft_vtom4b4(shader->lray.origin, obj.otow);
+	shader->normal = ft_vtom3b3(shader->normal, obj.ntow);
+	shader->normal = ft_vnorm(shader->normal);
 }
 
-t_vec	ft_get_color(t_obj object, t_ray iray_os, t_light light)
+t_vec	ft_get_color(t_object obj, t_ray iray_os, t_light light)
 {
 	t_vec		result;
+	t_env		*e;
 	t_shader	shader;
 
-	shader = ft_get_shader(obj, iray_os);
+	e = ft_getenv();
+	ft_get_shader(&shader, obj, iray_os);
 	shader.lray.dir = ft_vsub(light.origin, shader.lray.origin);
 	shader.dist_sqrd = ft_vdot(shader.lray.dir, shader.lray.dir);
 	shader.lray.t = sqrt(shader.dist_sqrd);
 	shader.lray.dir = ft_vmul(shader.lray.dir, 1. / shader.lray.t);
 	shader.angle = ft_fmax(0, ft_vdot(shader.lray.dir, shader.normal));
-
-	//a faire -> plusieur source de lumiere
-	t_env		e;
-	t_light		cur_light;
-	int			i;
-
-	i = -1;
-	while(i++ < e->llight_len)   // new
-	{
-//		ft_vtom3b3(ligh, 0., 0., 0.)
-		cur_light = e->llight[i];
-		shader.diff = (t_vec){0, 0, 0};
-		shader.spec = (t_vec){0, 0, 0};
-
-	}
-	if (ft_raytracer(shader.lray, lobj, NULL, NULL))
+	shader.diff = (t_vec){0, 0, 0};
+	shader.spec = (t_vec){0, 0, 0};
+	if (ft_intersect(e, shader.lray, NULL, NULL))
 		return ((t_vec){0. , 0. , 0.});
-	ft_fixed_obj_color(obj, light)
-	ft_get_diff_spec(obj, iray, light)
-	result = ft_vmul(obj.rgb, shader.total_light);
+	ft_get_diff(&shader, obj, light);
+	ft_get_spec(&shader, obj, iray_os, light);
 	result.x = shader.spec.x + shader.diff.x;
 	result.y = shader.spec.y + shader.diff.y;
 	result.z = shader.spec.z + shader.diff.z;

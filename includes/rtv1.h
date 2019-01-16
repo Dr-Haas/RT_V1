@@ -62,13 +62,13 @@ typedef struct	s_light
 /*
 ** This rgb structure contain all variables used to illuminate the scene
 */
-typedef	struct s_rgb
+/*typedef	struct s_rgb
 {
 	double	red;
 	double	green;
 	double	blue;
 }				t_rgb;
-
+*/
 /*
 ** This object structure contain all variables used to interpret and draw objects
 */
@@ -85,7 +85,7 @@ typedef struct	s_object
 	t_m4b4		otow;
 	t_m4b4		wtoo;
 	t_m3b3		ntow;
-	t_rgb       rgb;
+	t_vec       rgb;
 }				t_object;
 
 
@@ -99,7 +99,6 @@ typedef struct	s_env
 	char		name[5];
 	int			w;
 	int			h;
-	int			precision;
 	void		*mlx;
 	void		*win;
 	void		*pic;
@@ -170,8 +169,9 @@ void			ft_lfill(t_list **alst, void const *c, size_t cs);
 char			**ft_filecopy(char *file, int i, int exp);
 int				ft_filecheck(char *file);
 void			ft_putenv(void);
-double			ft_intersect(t_env *e, t_ray r, t_object *ao);
+int				ft_intersect(t_env *e, t_ray ray_ws, t_object *ahit_obj, t_ray *res_os);
 void			ft_drawscene(void);
-t_vec			ft_getcolor(t_object obj, t_ray ray_os, t_light light);
+unsigned int 	color_app_lum(t_vec rgb);
+t_vec			ft_get_color(t_object obj, t_ray ray_os, t_light light);
 
 #endif
