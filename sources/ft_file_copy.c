@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_filecopy.c                                      :+:      :+:    :+:   */
+/*   ft_file_copy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -70,7 +70,7 @@ int			ft_checkbrack(char **fcopy)
 	return (str[k] ? 0 : 1);
 }
 
-static char	**filecopy_error(void)
+static char 	**file_copy_error(void)
 {
 	ft_putstr("error: bad file\n");
 	return (NULL);
@@ -80,7 +80,7 @@ static char	**filecopy_error(void)
 ** Copy file into a char** table
 */
 
-char		**ft_filecopy(char *file, int i, int exp)
+char		**ft_file_copy(char *file, int i, int exp)
 {
 	int		fd;
 	char	b[1];
@@ -91,8 +91,8 @@ char		**ft_filecopy(char *file, int i, int exp)
 	fcopy = NULL;
 	len = 0;
 	if ((fd = open(file, O_RDONLY)) < 0 || read(fd, b, 0) < 0)
-		return (filecopy_error());
-	if ((exp = ft_filecheck(file)) > 0)
+		return (file_copy_error());
+	if ((exp = ft_file_check(file)) > 0)
 	{
 		if (!(fcopy = ft_memalloc((exp + 1) * sizeof(char*))))
 			return (NULL);

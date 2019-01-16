@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_drawscene.c                                     :+:      :+:    :+:   */
+/*   ft_draw_scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -102,14 +102,14 @@ t_vec		ft_raytrace(t_env *e, t_ray incident_ray)
 ** 	i < e->h && j < e->w ? ft_lightscene(r, e, i, j) : 0;
 */
 
-void	ft_drawscene(void)
+void	ft_draw_scene(void)
 {
 	int		i;
 	int		j;
 	t_ray	ray;
 	t_env	*e;
 
-	e = ft_getenv();
+	e = ft_get_env();
 
 for (int i = 0; i < e->w * e->h; ++i) e->stp[i] = 0x880088;
 

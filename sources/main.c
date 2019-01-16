@@ -16,14 +16,14 @@
 ** Reset scene to black
 */
 
-void	ft_fillscene(void)
+void	ft_fill_scene(void)
 {
 	int		i;
 	int		j;
 	t_env	*e;
 
 	i = -1;
-	e = ft_getenv();
+	e = ft_get_env();
 	while (++i < e->h)
 	{
 		j = -1;
@@ -61,12 +61,12 @@ void	ft_render(void)
 {
 	t_env	*e;
 
-	e = ft_getenv();
-	printf("error 2\n");
-	ft_fillscene();
-	printf("error 3\n");
-	ft_drawscene();
-	printf("error 4\n");
+	e = ft_get_env();
+//	printf("error 2\n");
+	ft_fill_scene();
+//	printf("error 3\n");
+	ft_draw_scene();
+//	printf("error 4\n");
 	mlx_hook(e->win, 2, 0, ft_hook, e);
 	mlx_hook(e->win, 17, 0, ft_exit, e);
 	mlx_loop(e->mlx);
@@ -79,7 +79,7 @@ void	ft_render(void)
 
 int		main(int argc, char **argv)
 {
-	printf("debug1\n");
+//	printf("debug1\n");
 	if (argc != 2)
 	{
 		ft_putstr("usage: ./rtv1 scene_file\n");
@@ -87,16 +87,16 @@ int		main(int argc, char **argv)
 	}
 	else
 	{
-		printf("debug2\n");
-		if (ft_setenv(argv[1]) == ERROR)
+//		printf("debug2\n");
+		if (ft_set_env(argv[1]) == ERROR)
 		{
 			ft_putstr("Env could not be set.\n");
 			exit(1);
 		}
-		printf("error 1\n");
-		ft_putenv();
+//		printf("error 1\n");
+		ft_put_env();
 		ft_render();
-		printf("error 2\n");
+//		printf("error 2\n");
 	}
 	return (0);
 }

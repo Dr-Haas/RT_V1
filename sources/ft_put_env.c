@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putenv.c                                        :+:      :+:    :+:   */
+/*   ft_put_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -97,13 +97,13 @@ void	ft_put_object(t_object o)
 ** Render environment
 */
 
-void	ft_putenv(void)
+void	ft_put_env(void)
 {
 	t_env		*e;
 	int			i;
 
 	i = -1;
-	e = ft_getenv();
+	e = ft_get_env();
 	ft_put_camera(e->cam);
 	while (++i < e->llight_len)
 		ft_put_light(e->llight[i]);

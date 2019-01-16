@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_setenv.c                                        :+:      :+:    :+:   */
+/*   ft_set_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -39,7 +39,7 @@ int		ft_setscene(char **fc, t_env *e)
 ** Set camera structure according to file copy
 */
 
-int		ft_setcam(char **fc, t_camera *ac)
+int		ft_set_cam(char **fc, t_camera *ac)
 {
 	int		i;
 
@@ -71,7 +71,7 @@ int		ft_setcam(char **fc, t_camera *ac)
 ** Set light structure according to file copy
 */
 
-int		ft_setlig(char **fc, t_light *al)
+int		ft_set_lig(char **fc, t_light *al)
 {
 	int		i;
 
@@ -96,7 +96,7 @@ int		ft_setlig(char **fc, t_light *al)
 ** Free file copy
 */
 
-void	ft_freefcpy(char **fcpy)
+void	ft_free_fcpy(char **fcpy)
 {
 	int		i;
 
@@ -111,7 +111,7 @@ void	ft_freefcpy(char **fcpy)
 ** Set and fill env lists according to file copy
 */
 
-int		ft_setenv(char *file)
+int		ft_set_env(char *file)
 {
 	int		i;
 	int		status;
@@ -120,20 +120,20 @@ int		ft_setenv(char *file)
 
 	i = -1;
 	status = OK;
-	if (!(fcpy = ft_filecopy(file, 0, 0)))
+	if (!(fcpy = ft_file_copy(file, 0, 0)))
 		return (ERROR);
-	e = ft_getenv();
+	e = ft_get_env();
 	while (fcpy[++i] != NULL && status == OK)
 	{
 //		if (!ft_strcmp(fcpy[i], "scene") && ft_setscene(fcpy + i, e) == ERROR)
 //			status = ERROR;
-		if (!ft_strcmp(fcpy[i], "camera") && !ft_setcam(fcpy + i, &(e->cam)))
+		if (!ft_strcmp(fcpy[i], "camera") && !ft_set_cam(fcpy + i, &(e->cam)))
 			status = ERROR;
-		else if (!ft_strcmp(fcpy[i], "light") && !ft_setlig(fcpy + i, &(e->llight[e->llight_len++])))
+		else if (!ft_strcmp(fcpy[i], "light") && !ft_set_lig(fcpy + i, &(e->llight[e->llight_len++])))
 			status = ERROR;
-		else if (!ft_strcmp(fcpy[i], "object") && !ft_setobj(fcpy + i, &(e->lobj[e->lobj_len++])))
+		else if (!ft_strcmp(fcpy[i], "object") && !ft_set_obj(fcpy + i, &(e->lobj[e->lobj_len++])))
 			status = ERROR;
 	}
-	ft_freefcpy(fcpy);
+	ft_free_fcpy(fcpy);
 	return (status);
 }

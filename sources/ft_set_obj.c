@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_setobj.c                                        :+:      :+:    :+:   */
+/*   ft_set_obj.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,7 +24,7 @@
 ** 	ft_putchar('\n');
 */
 
-void	ft_initobject(t_object *o)
+void	ft_init_object(t_object *o)
 {
 	t_m3b3	rmat;
 	t_m3b3	tmat;
@@ -56,7 +56,7 @@ void	ft_initobject(t_object *o)
 ** 	ao->d = ft_vrotxyz(ao->d, ao->rot);
 */
 
-void	ft_setobjvar(char *line, t_object *ao)
+void	ft_set_objvar(char *line, t_object *ao)
 {
 	if (!ft_strncmp(line, "type=", 5))
 		ao->type = ft_strsub(line, 6, ft_strlen(line) - 8);
@@ -78,7 +78,7 @@ void	ft_setobjvar(char *line, t_object *ao)
 ** Set object structure according to file copy
 */
 
-int		ft_setobj(char **fc, t_object *ao)
+int		ft_set_obj(char **fc, t_object *ao)
 {
 	int		i;
 
@@ -95,10 +95,10 @@ int		ft_setobj(char **fc, t_object *ao)
 			|| !ft_strncmp(fc[i], "scale={", 7)
 			|| !ft_strncmp(fc[i], "rotation={", 10)
 			|| !ft_strncmp(fc[i], "color={", 7))
-			ft_setobjvar(fc[i], ao);
+			ft_set_objvar(fc[i], ao);
 		else if (!ft_strcmp(fc[i], "}"))
 		{
-			ft_initobject(ao);
+			ft_init_object(ao);
 			return (1);
 		}
 	return (0);

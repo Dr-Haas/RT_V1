@@ -12,45 +12,35 @@
 
 
 
-NAME =		rtv1
+NAME 	=	rtv1
 
-ifeq ($(OS),Windows_NT)
-	LIBMLX = $(MLXWIN)
-else
-	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Darwin)
-		LIBMLX = $(MLXMAC)
-	endif
-endif
+LIBMLX 	=	-L minilibx_macos/ -lmlx -framework OpenGL -framework Appkit
 
-MLXWIN =	-L /usr/local/lib/ -lmlx -lX11.dll -lXext.dll
-MLXMAC =	-L minilibx_macos/ -lmlx -framework OpenGL -framework Appkit
+LIBFT 	=	LIBFT
+LIBRT 	=	LIBRT
+LIBS 	=	librt/librt.a libft/libft.a
 
-LIBFT =		LIBFT
-LIBRT =		LIBRT
-LIBS =		librt/librt.a libft/libft.a
+CC 		=	clang
+CFLAGS 	=	-Wall -Wextra -Werror
 
-CC =		clang
-CFLAGS =	-Wall -Wextra -Werror
-
-SRCS =		sources/main.c \
-			sources/ft_getenv.c \
-			sources/ft_setobj.c \
-			sources/ft_setenv.c \
+SRCS 	=	sources/main.c \
+			sources/ft_get_env.c \
+			sources/ft_set_obj.c \
+			sources/ft_set_env.c \
 			sources/ft_lfill.c \
-			sources/ft_filecopy.c \
-			sources/ft_filecheck.c \
-			sources/ft_putenv.c \
+			sources/ft_file_copy.c \
+			sources/ft_file_check.c \
+			sources/ft_put_env.c \
 			sources/ft_intersect.c \
-			sources/ft_drawscene.c \
+			sources/ft_draw_scene.c \
 			sources/ft_get_color.c  \
 
-OBJS =		$(SRCS:.c=.o)
+OBJS 	=	$(SRCS:.c=.o)
 
-_GREEN =	$ \033[32m
+_GREEN 	=	$ \033[32m
 _YELLOW =	$ \033[33m
-_RED =		$ \033[31m
-_END =		$ \033[0m
+_RED 	=	$ \033[31m
+_END 	=	$ \033[0m
 
 all: $(NAME)
 
@@ -59,7 +49,6 @@ $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBRT)
 	@gcc $(CFLAGS) -o $(NAME) -I /usr/local/include/ $(OBJS) $(LIBS) $(LIBMLX)
 	@printf "$(_GREEN)rtv1 compiled\n$(_END)"
-	@echo "\033[38;5;32m  [$(NAME)]	Compiled."
 	@echo "\033[34m"
 	@echo "\033[38;5;24m  MMMºººAMV      MMºººMM        MMºººMM    MMºººMm"
 	@echo " MM             MM     MM'     MM     MM   MM    Mm"
@@ -72,21 +61,21 @@ $(NAME): $(OBJS)
 	@echo "\033[38;5;32m [2018]                    [${LOGIN}]"
 
 %.o: %.c
-	@$(CC) -c $(CFLAGS) -I. $< -o $@
+	@$(CC) -c $(CFLAGS) -I. $< -o $@ 
 
 clean:
 	@$(MAKE) clean -C $(LIBFT)
 	@$(MAKE) clean -C $(LIBRT)
 	@rm -f $(OBJS)
-	@printf "libft cleaned\n"
-	@printf "librt cleaned\n"
-	@printf "rtv1 cleaned\n"
+	@printf "$(_RED)libft cleaned\n"
+	@printf "$(_RED)librt cleaned\n"
+	@printf "$(_RED)rtv1 cleaned\n"
 
 fclean: clean
 	@$(MAKE) fclean -C $(LIBFT)
 	@$(MAKE) fclean -C $(LIBRT)
 	@rm -f $(NAME)
-	@printf "rtv1 fcleaned\n"
+	@printf "$(_YELLOW)rtv1 fcleaned\n"
 
 re: fclean all
 

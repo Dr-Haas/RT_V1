@@ -163,16 +163,89 @@ typedef struct	s_cal
 	double		t[2];
 }				t_cal;
 
-t_env			*ft_getenv(void);
-int				ft_setobj(char **fc, t_object *ao);
-int				ft_setenv(char *file);
+/*
+** main.c functions
+*/
+int				main(int argc, char **argv);
+void			ft_render(void);
+int				ft_hook(int key, t_env *e);
+void			ft_fill_scene(void);
+
+/*
+** ft_get_env.c function
+*/
+t_env			*ft_get_env(void);
+
+/*
+** ft-set_obj.c functions
+*/
+int				ft_set_obj(char **fc, t_object *ao);
+void			ft_set_objvar(char *line, t_object *ao);
+void			ft_init_object(t_object *o);
+
+/*
+** ft_set_env(.c function
+*/
+int				ft_set_env(char *file);
+void			ft_free_fcpy(char **fcpy);
+int				ft_set_lig(char **fc, t_light *al);
+int				ft_set_cam(char **fc, t_camera *ac);
+
+/*
+** ft_lfill.c functions
+*/
 void			ft_lfill(t_list **alst, void const *c, size_t cs);
-char			**ft_filecopy(char *file, int i, int exp);
+
+
+/*
+** ft_file_copy.c functions
+*/
+char			**ft_file_copy(char *file, int i, int exp);
+int				ft_checkbrack(char **fcopy);
+
+
+/*
+** main.c functions
+*/
 int				ft_filecheck(char *file);
-void			ft_putenv(void);
+int				ft_str_check(char *line);
+int				ft_val_check(char *line);
+int				ft_tab_check(char *line);
+int				ft_file_check(char *file);
+
+
+/*
+** ft_put_env.c functions
+*/
+void			ft_put_env(void);
+void			ft_put_object(t_object o);
+void			ft_put_light(t_light l);
+void			ft_put_camera(t_camera c);
+void			ft_putcoor(char *str, t_vec v);
+
+
+/*
+** ft_intersect.c functions
+*/
 int				ft_intersect(t_env *e, t_ray ray_ws, t_object *ahit_obj, t_ray *res_os);
-void			ft_drawscene(void);
-unsigned int 	color_app_lum(t_vec rgb);
+
+/*
+** ft_draw_scene.c functions
+*/
+void			ft_draw_scene(void);
+t_vec			ft_raytrace(t_env *e, t_ray incident_ray);
+void			ft_initcamera(t_camera *c);
+
+
+/*
+** ft_get_color.c function
+*/
 t_vec			ft_get_color(t_object obj, t_ray ray_os, t_light light);
+void			ft_get_shader(t_shader *shader, t_object obj, t_ray iray_os);
+void			ft_get_spec(t_shader *shader, t_object obj, t_ray iray_os, t_light light);
+void			ft_get_diff(t_shader *shader, t_object obj, t_light light);
+unsigned int 	color_app_lum(t_vec rgb);
+double			ft_fmax(double nb_1, double nb_2);
+double			ft_fmin(double nb_1, double nb_2);
 
 #endif

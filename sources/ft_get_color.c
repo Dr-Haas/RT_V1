@@ -88,7 +88,7 @@ t_vec	ft_get_color(t_object obj, t_ray iray_os, t_light light)
 	t_env		*e;
 	t_shader	shader;
 
-	e = ft_getenv();
+	e = ft_get_env();
 	ft_get_shader(&shader, obj, iray_os);
 	shader.lray.dir = ft_vsub(light.origin, shader.lray.origin);
 	shader.dist_sqrd = ft_vdot(shader.lray.dir, shader.lray.dir);
