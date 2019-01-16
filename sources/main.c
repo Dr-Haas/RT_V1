@@ -62,8 +62,11 @@ void	ft_render(void)
 	t_env	*e;
 
 	e = ft_getenv();
+	printf("error 2\n");
 	ft_fillscene();
+	printf("error 3\n");
 	ft_drawscene();
+	printf("error 4\n");
 	mlx_hook(e->win, 2, 0, ft_hook, e);
 	mlx_hook(e->win, 17, 0, ft_exit, e);
 	mlx_loop(e->mlx);
@@ -76,6 +79,7 @@ void	ft_render(void)
 
 int		main(int argc, char **argv)
 {
+	printf("debug1\n");
 	if (argc != 2)
 	{
 		ft_putstr("usage: ./rtv1 scene_file\n");
@@ -83,10 +87,16 @@ int		main(int argc, char **argv)
 	}
 	else
 	{
-		if (!ft_setenv(argv[1]))
+		printf("debug2\n");
+		if (ft_setenv(argv[1]) == ERROR)
+		{
+			ft_putstr("Env could not be set.\n");
 			exit(1);
+		}
+		printf("error 1\n");
 		ft_putenv();
 		ft_render();
+		printf("error 2\n");
 	}
 	return (0);
 }

@@ -83,7 +83,7 @@ t_vec		ft_raytrace(t_env *e, t_ray incident_ray)
 	if (ft_intersect(e, incident_ray, &hit_obj, &incid_os))
 	{
 		i = 0;
-		while(i < e->llight_len)   // new
+		while(i < e->llight_len)
 		{
 			result = ft_vsum(result, 
 							ft_get_color(hit_obj, incid_os, e->llight[i]));
@@ -107,10 +107,12 @@ void	ft_drawscene(void)
 	int		i;
 	int		j;
 	t_ray	ray;
-//	t_shader shader;
 	t_env	*e;
 
 	e = ft_getenv();
+
+for (int i = 0; i < e->w * e->h; ++i) e->stp[i] = 0x880088;
+
 	ft_initcamera(&e->cam);
 	ray.origin = ft_vset(e->cam.world.x, e->cam.world.y, e->cam.world.z);
 	i = -1;

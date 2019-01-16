@@ -13,26 +13,34 @@
 #include "librt.h"
 #include "../libft/libft.h"
 
+
+#include <stdio.h> //a enlever
+
+
 /*
 ** Fill each dimensions of a 3b3 vector according to na, nb, bc
 */
 
-void	ft_vfill(double *na, double *nb, double *nc, char *line)
+t_vec	ft_vfill(char *line)
 {
-	int	i;
+	int		i;
+	t_vec	res;
 
 	i = 0;
 	while (line[i] != '\0' && line[i] != '{')
 		i++;
 	i++;
-	*na = ft_atoi(line + i);
+	res.x = ft_atoi(line + i);
+	printf("%f\n", res.x);
 	while (ft_isdigit(line[i]) || line[i] == '-')
 		i++;
 	i++;
-	*nb = ft_atoi(line + i);
+	res.y = ft_atoi(line + i);
+	printf("%f\n", res.y);
 	while (ft_isdigit(line[i]) || line[i] == '-')
 		i++;
 	i++;
-	*nc = ft_atoi(line + i);
-	return ;
+	res.z = ft_atoi(line + i);
+	printf("%f\n", res.z);
+	return (res);
 }

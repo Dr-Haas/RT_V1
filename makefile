@@ -43,7 +43,7 @@ SRCS =		sources/main.c \
 			sources/ft_putenv.c \
 			sources/ft_intersect.c \
 			sources/ft_drawscene.c \
-			sources/ft_getcolor.c  \
+			sources/ft_get_color.c  \
 
 OBJS =		$(SRCS:.c=.o)
 

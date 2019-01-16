@@ -1,13 +1,3 @@
-
-
-scene
-{
-	name		= "Rtv1";
-	width		= 500;
-	height		= 500;
-	precision	= 1;
-}
-
 camera
 {
 	fov			= 90;

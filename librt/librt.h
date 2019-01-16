@@ -61,7 +61,7 @@ t_vec				ft_vdiv(t_vec vec, double o);
 double				ft_vdot(t_vec veca, t_vec vecb);
 double				ft_vsqrd(t_vec vec);
 t_vec				ft_vnorm(t_vec vec);
-void				ft_vfill(double *na, double *nb, double *nc, char *line);
+t_vec				ft_vfill(char *line);
 t_vec				ft_vpolartocartesian(t_vec vec);
 t_vec				ft_vcross(t_vec veca, t_vec vecb);
 t_vec				ft_vrotx(t_vec vec, double r);

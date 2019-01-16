@@ -17,7 +17,7 @@
 **
 ** returns 1 if scene set OK.
 */
-
+/*
 int		ft_setscene(char **fc, t_env *e)
 {
 	int		i;
@@ -34,7 +34,7 @@ int		ft_setscene(char **fc, t_env *e)
 			return (OK);
 	return (ERROR);
 }
-
+*/
 /*
 ** Set camera structure according to file copy
 */
@@ -55,7 +55,7 @@ int		ft_setcam(char **fc, t_camera *ac)
 		if (!ft_strncmp(fc[i], "fov=", 4))
 			ac->fov = ft_atoi(fc[i] + 4);
 		else if (!ft_strncmp(fc[i], "anchor=", 7))
-			ft_vfill(&ac->anchor.x, &ac->anchor.y, &ac->anchor.z, fc[i]);
+			ac->anchor = ft_vfill(fc[i] + 7);
 		else if (!ft_strncmp(fc[i], "radius=", 7))
 			ac->radius = ft_atoi(fc[i] + 7);
 		else if (!ft_strncmp(fc[i], "longitude=", 10))
@@ -83,10 +83,10 @@ int		ft_setlig(char **fc, t_light *al)
 	while (fc[++i] != NULL)
 		if (!ft_strncmp(fc[i], "luminosity=", 11))
 			al->lum = ft_atoi(fc[i] + 11);
-		else if (!ft_strcmp(fc[i], "rgb={"))
-			ft_vfill(&al->rgb.x, &al->rgb.y, &al->rgb.z, fc[i]);  //new
-		else if (!ft_strncmp(fc[i], "origin={", 8))
-			ft_vfill(&al->origin.x, &al->origin.y, &al->origin.z, fc[i]);
+		else if (!ft_strncmp(fc[i], "rgb=", 4))
+			al->rgb = ft_vfill(fc[i] + 4);
+		else if (!ft_strncmp(fc[i], "origin=", 8))
+			al->origin = ft_vfill(fc[i] + 8);
 		else if (!ft_strcmp(fc[i], "}"))
 			return (1);
 	return (0);
@@ -125,9 +125,9 @@ int		ft_setenv(char *file)
 	e = ft_getenv();
 	while (fcpy[++i] != NULL && status == OK)
 	{
-		if (!ft_strcmp(fcpy[i], "scene") && ft_setscene(fcpy + i, e) == ERROR)
-			status = ERROR;
-		else if (!ft_strcmp(fcpy[i], "camera") && !ft_setcam(fcpy + i, &(e->cam)))
+//		if (!ft_strcmp(fcpy[i], "scene") && ft_setscene(fcpy + i, e) == ERROR)
+//			status = ERROR;
+		if (!ft_strcmp(fcpy[i], "camera") && !ft_setcam(fcpy + i, &(e->cam)))
 			status = ERROR;
 		else if (!ft_strcmp(fcpy[i], "light") && !ft_setlig(fcpy + i, &(e->llight[e->llight_len++])))
 			status = ERROR;

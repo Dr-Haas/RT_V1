@@ -79,9 +79,9 @@ void	ft_put_object(t_object o)
 {
 	t_vec rgb;
 
-	rgb.x = o.rgb.red;
-	rgb.y = o.rgb.green;
-	rgb.z = o.rgb.blue;
+	rgb.x = o.rgb.x;
+	rgb.y = o.rgb.y;
+	rgb.z = o.rgb.z;
 	ft_putstr("\033[32;1mobject\033[0m\n{\n\ttype\t\t= \"");
 	ft_putstr(o.type);
 	ft_putstr(";\n");

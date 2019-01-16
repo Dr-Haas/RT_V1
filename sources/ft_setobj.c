@@ -61,16 +61,16 @@ void	ft_setobjvar(char *line, t_object *ao)
 	if (!ft_strncmp(line, "type=", 5))
 		ao->type = ft_strsub(line, 6, ft_strlen(line) - 8);
 	else if (!ft_strncmp(line, "origin={", 8))
-		ft_vfill(&ao->origin.x, &ao->origin.y, &ao->origin.z, line);
+		ao->origin = ft_vfill(line);
 	else if (!ft_strncmp(line, "scale={", 7))
-		ft_vfill(&ao->scale.x, &ao->scale.y, &ao->scale.z, line);
+		ao->scale = ft_vfill(line);
 	else if (!ft_strncmp(line, "rotation={", 10))
 	{
-		ft_vfill(&ao->rot.x, &ao->rot.y, &ao->rot.z, line);
+		ao->rot = ft_vfill(line);
 		ao->rot = ft_vmul(ao->rot, PI / 180);
 	}
 	else if (!ft_strncmp(line, "color={", 7))
-		ft_vfill(&ao->rgb.red, &ao->rgb.green, &ao->rgb.blue, line);
+		ao->rgb = ft_vfill(line);
 	return ;
 }
 

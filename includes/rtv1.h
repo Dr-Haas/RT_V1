@@ -17,9 +17,10 @@
 # include "libft/libft.h"
 # include "librt/librt.h"
 # include "../minilibx_macos/mlx.h"
+# include "stdio.h"
 
-# define WIDTH		1200
-# define HEIGHT		1200
+# define WIDTH		300
+# define HEIGHT		300
 # define PI			3.14159265359
 # define INV_PI		0.31830988618 
 # define EPSILON	0.00001
