@@ -34,9 +34,7 @@ t_env	*ft_get_env(void)
 		if (!(e->pic = mlx_new_image(e->mlx, e->w, e->h)))
 			return (NULL);
 		e->stp = (int*)mlx_get_data_addr(e->pic, &e->pa, &e->pb, &e->pc);
-//		e->cam = (t_cam){};
-//		e->llight = NULL;
-//		e->lobj = NULL;
+
 		e->lobj_len = 0;
 		e->llight_len = 0;
 	}

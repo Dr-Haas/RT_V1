@@ -20,7 +20,6 @@
 
 static char	*ft_strcln(char *str)
 {
-	printf("ERROR_stcln\n");
 	int	i;
 
 	i = -1;
@@ -29,7 +28,6 @@ static char	*ft_strcln(char *str)
 		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
 			|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f')
 		{
-			printf("ERROR_9\n");
 
 			while (str[++i] != '\0')
 				str[i - 1] = str[i];
@@ -46,12 +44,10 @@ static char	*ft_strcln(char *str)
 
 int			ft_str_check(char *line)
 {
-	printf("ERROR_strcheck\n");
 	int	i;
 
 	if (!ft_strncmp(line, "name=\"", 6))
 	{
-		printf("ERROR_3\n");
 		i = 6;
 		if (!ft_isalnum(line[++i]))
 			return (0);
@@ -61,7 +57,6 @@ int			ft_str_check(char *line)
 	}
 	if (!ft_strncmp(line, "type=\"", 6))
 	{
-		printf("ERROR_4\n");
 		i = 6;
 		return (!ft_strcmp(line + i, "sphere\";")
 				|| !ft_strcmp(line + i, "plane\";")
@@ -69,7 +64,6 @@ int			ft_str_check(char *line)
 				|| !ft_strcmp(line + i, "cylinder\";")
 				|| !ft_strcmp(line + i, "cone\";") ? 1 : 0);
 	}
-	printf("ERROR_5\n");
 	return (!ft_strcmp(line, "scene") || !ft_strcmp(line, "camera")
 			|| !ft_strcmp(line, "light") || !ft_strcmp(line, "object")
 			|| !ft_strcmp(line, "{") || !ft_strcmp(line, "}")
@@ -82,7 +76,6 @@ int			ft_str_check(char *line)
 
 int			ft_val_check(char *line)
 {
-	printf("ERROR_valcheck\n");
 	int	i;
 
 	i = -1;
@@ -94,7 +87,6 @@ int			ft_val_check(char *line)
 		|| !ft_strncmp(line, "height=", 7)
 		|| !ft_strncmp(line, "precision=", 10))
 	{
-		printf("ERROR_6\n");
 		while (line[i] != '=')
 			i++;
 		i++;
@@ -114,7 +106,6 @@ int			ft_val_check(char *line)
 
 int			ft_tab_check(char *line)
 {
-	printf("ERROR_tabcheck\n");
 	int	i;
 	int	j;
 
@@ -125,13 +116,11 @@ int			ft_tab_check(char *line)
 		|| !ft_strncmp(line, "color={", 7) || !ft_strncmp(line, "anchor={", 8)
 		|| !ft_strcmp(line, "rgb={"))
 	{
-		printf("ERROR_7\n");
 		while (line[i] != '{')
 			i++;
 		i++;
 		while (++j < 3)
 		{
-			printf("ERROR_8\n");
 			line[i] == '-' ? i++ : 0;
 			if (!ft_isdigit(line[i]))
 				return (0);
@@ -159,21 +148,23 @@ int			ft_file_check(char *file)
 	len = 0;
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (0);
-	printf("ERROR_1\n");
 	while ((ret = sget_next_line(fd, &line)) == 1)
 	{
 		if (ret < 0)
 			return (0);
 		line = ft_strcln(line);
+		printf("\033[34m%s \033[31mline\n\033[0m", line);
 		if (!ft_str_check(line) && !ft_val_check(line) && !ft_tab_check(line))
 		{
-			printf("ERROR_2\n");
 			ft_putstr("error (line ");
 			ft_putnbr(len);
 			ft_putstr("): bad argument\n");
 			free(line);
 			return (0);
 		}
+		printf("\033[36m%d --> \033[36m ft_str_check\n\033[0m", ft_str_check(line));
+		printf("\033[35m%d --> \033[35m ft_val_check\n\033[0m", ft_val_check(line));
+		printf("\033[37m%d --> \033[37m ft_tab_check\n\033[0m", ft_tab_check(line));
 		free(line);
 		len++;
 	}

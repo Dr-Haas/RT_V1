@@ -58,7 +58,7 @@ $(NAME): $(OBJS)
 	@echo " MM      MM     MM     MM'     MM     MM   MM    Mm"
 	@echo "\033[38;5;27m  AMVmmmmMM      MMwwwMM        MMwwwMM    MMwwwMM "
 	@echo ""
-	@echo "\033[38;5;32m [2018]                    [${LOGIN}]"
+	@echo "\033[38;5;32m [2018]                    [${LOGIN}]\033[0m"
 
 %.o: %.c
 	@$(CC) -c $(CFLAGS) -I. $< -o $@ 

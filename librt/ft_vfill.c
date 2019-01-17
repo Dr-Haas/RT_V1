@@ -31,16 +31,16 @@ t_vec	ft_vfill(char *line)
 		i++;
 	i++;
 	res.x = ft_atoi(line + i);
-	printf("%f\n", res.x);
+//	printf("\033[34m res.x --> \033[35m%f\n\033[0m", res.x);
 	while (ft_isdigit(line[i]) || line[i] == '-')
 		i++;
 	i++;
 	res.y = ft_atoi(line + i);
-	printf("%f\n", res.y);
+//	printf("\033[36m res.y --> \033[35m%f\n\033[0m", res.y);
 	while (ft_isdigit(line[i]) || line[i] == '-')
 		i++;
 	i++;
 	res.z = ft_atoi(line + i);
-	printf("%f\n", res.z);
+//	printf("\033[38m res.z --> \033[35m%f\n\033[0m", res.z);
 	return (res);
 }
