@@ -6,7 +6,7 @@
 /*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/04 19:38:51 by ghaas             #+#    #+#             */
-/*   Updated: 2019/01/06 18:39:26 by rmarracc         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:43:17 by ghaas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_vec		ft_raytrace(t_env *e, t_ray incident_ray)
 ** 	i < e->h && j < e->w ? ft_lightscene(r, e, i, j) : 0;
 */
 
-void	ft_draw_scene(void)
+void	ft_draw_scene(void)  // inverse le sens de l'image
 {
 	int		i;
 	int		j;

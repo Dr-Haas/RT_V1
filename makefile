@@ -23,15 +23,15 @@ LIBS 	=	librt/librt.a libft/libft.a
 CC 		=	clang
 CFLAGS 	=	-Wall -Wextra -Werror
 
-SRCS 	=	sources/main.c \
-			sources/ft_get_env.c \
-			sources/ft_set_obj.c \
-			sources/ft_set_env.c \
-			sources/ft_lfill.c \
-			sources/ft_file_copy.c \
+SRCS 	=	sources/main.c 			\
+			sources/ft_get_env.c 	\
+			sources/ft_set_obj.c 	\
+			sources/ft_set_env.c 	\
+			sources/ft_lfill.c 		\
+			sources/ft_file_copy.c 	\
 			sources/ft_file_check.c \
-			sources/ft_put_env.c \
-			sources/ft_intersect.c \
+			sources/ft_put_env.c 	\
+			sources/ft_intersect.c 	\
 			sources/ft_draw_scene.c \
 			sources/ft_get_color.c  \
 
