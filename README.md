@@ -2,8 +2,8 @@
 
 ## RTv1
 
-![ALT TAG](/screenst/screenst1.png)
-![alt tag](/screenst/screenst2.png)
+![alt tag](/screenst/screen_st1.png)
+![alt tag](/screenst/screen_st2.png)
 
 Ce mini-projet est une première étape dans la réalisation d’un programme de Raytracing, en vue de calculer entièrement des images de synthèse.
 
