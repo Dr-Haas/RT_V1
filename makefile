@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ghaas <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 19:38:25 by ghaas             #+#    #+#              #
-#    Updated: 2019/01/06 22:14:03 by rmarracc         ###   ########.fr        #
+#    Updated: 2019/01/28 12:07:00 by ghaas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,16 @@ CC 		=	clang
 CFLAGS 	=	-Wall -Wextra -Werror
 
 SRCS 	=	sources/main.c 			\
-			sources/ft_get_env.c 	\
-			sources/ft_set_obj.c 	\
-			sources/ft_set_env.c 	\
-			sources/ft_lfill.c 		\
-			sources/ft_file_copy.c 	\
-			sources/ft_file_check.c \
-			sources/ft_put_env.c 	\
-			sources/ft_intersect.c 	\
-			sources/ft_draw_scene.c \
-			sources/ft_get_color.c  \
+			sources/lstdel_func.c 	\
+			sources/parse_bin.c 	\
+			sources/print_data.c	\
+			sources/mlx_init.c		\
+			sources/raytrace.c		\
+			sources/intersect.c		\
+			sources/color.c			\
+			sources/equation.c		\
+			sources/light.c			\
+			sources/extra.c			\
 
 OBJS 	=	$(SRCS:.c=.o)
 
@@ -47,7 +47,8 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT)
 	@$(MAKE) -C $(LIBRT)
-	@gcc $(CFLAGS) -o $(NAME) -I /usr/local/include/ $(OBJS) $(LIBS) $(LIBMLX)
+	@$(MAKE) -C minilibx_macos/
+	@$(CC) $(CFLAGS) -o $(NAME) -Iincludes/ $(OBJS) $(LIBS) $(LIBMLX) -fsanitize=address
 	@printf "$(_GREEN)rtv1 compiled\n$(_END)"
 	@echo "\033[34m"
 	@echo "\033[38;5;24m  MMMºººAMV      MMºººMM        MMºººMM    MMºººMm"
@@ -61,7 +62,7 @@ $(NAME): $(OBJS)
 	@echo "\033[38;5;32m [2018]                    [${LOGIN}]\033[0m"
 
 %.o: %.c
-	@$(CC) -c $(CFLAGS) -I. $< -o $@ 
+	@$(CC) -c $(CFLAGS) -Iincludes/ $< -o $@ 
 
 clean:
 	@$(MAKE) clean -C $(LIBFT)
@@ -74,6 +75,7 @@ clean:
 fclean: clean
 	@$(MAKE) fclean -C $(LIBFT)
 	@$(MAKE) fclean -C $(LIBRT)
+	@$(MAKE) clean -C minilibx_macos/
 	@rm -f $(NAME)
 	@printf "$(_YELLOW)rtv1 fcleaned\n"
 

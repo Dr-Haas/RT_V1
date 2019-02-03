@@ -6,7 +6,7 @@
 /*   By: rmarracc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 17:40:20 by rmarracc          #+#    #+#             */
-/*   Updated: 2018/11/29 22:51:23 by rmarracc         ###   ########.fr       */
+/*   Updated: 2019/01/20 04:38:03 by rmarracc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static int	ft_res_hex(t_arg *flag, int ret, size_t nb, char prefix[2])
 	size = unsigned_size(nb, "0123456789abcdef", 0);
 	p_zero = flag->precision - size;
 	if (flag->width > flag->precision)
-		p_space = flag->width - ft_max(flag->precision, size) -
-			(prefix[0] != '\0');
+		p_space = flag->width - ft_max(flag->precision, size)
+			- (prefix[0] != '\0');
 	else
 		p_space = 0;
 	if (p_space > 0 && flag->minus <= 0)

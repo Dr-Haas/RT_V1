@@ -3,100 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rmarracc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/04 19:39:44 by ghaas             #+#    #+#             */
-/*   Updated: 2019/01/06 18:36:49 by rmarracc         ###   ########.fr       */
+/*   Created: 2019/01/22 09:35:42 by rmarracc          #+#    #+#             */
+/*   Updated: 2019/01/23 17:53:02 by rmarracc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/rtv1.h"
+#include "rtv1.h"
 
-/*
-** Reset scene to black
-*/
-
-void	ft_fill_scene(void)
+static int	ft_error(int8_t msg)
 {
-	int		i;
-	int		j;
-	t_env	*e;
+	if (msg == 0)
+		ft_putstr("error : open() failure\n");
+	else if (msg == 1)
+		ft_putstr("error : file is a folder\n");
+	return (-1);
+}
 
-	i = -1;
-	e = ft_get_env();
-	while (++i < e->h)
+static int	ft_usage(int8_t msg)
+{
+	if (msg == 0)
+		ft_putstr("usage : ./rtv1 [scene]\n");
+	return (0);
+}
+
+static int	ft_open(char *file)
+{
+	int		ret;
+	char	sbuf[1];
+
+	if ((ret = open(file, O_RDONLY)) < 0)
+		return (ft_error(0));
+	if (read(ret, sbuf, 0) < 0)
 	{
-		j = -1;
-		while (++j < e->w)
-			e->stp[i * e->w + j] = 0x0;
+		close(ret);
+		return (ft_error(1));
 	}
-	return ;
+	return (ret);
 }
 
-/*
-** Change environment variables according to key pressed
-*/
-
-int		ft_hook(int key, t_env *e)
+static void	init_env(t_env *setup)
 {
-	(void)e;
-	if (key == 53)
-		exit(0);
-	return (0);
+	setup->light = NULL;
+	setup->obj = NULL;
+	setup->cam.pos[0] = 0;
+	setup->cam.pos[1] = 0;
+	setup->cam.pos[2] = 0;
+	setup->cam.dir[0] = 1;
+	setup->cam.dir[1] = 0;
+	setup->cam.dir[2] = 0;
 }
 
-int		ft_exit(t_env *e)
+int			main(int argc, char **argv)
 {
-	(void)e;
-	exit(0);
-	return (0);
-}
+	int		fd;
+	t_env	setup;
 
-/*
-** "Ray tracing is not slow - computers are"
-** 	James Kajiya
-*/
-
-void	ft_render(void)
-{
-	t_env	*e;
-
-	e = ft_get_env();
-//	printf("error 2\n");
-	ft_fill_scene();
-//	printf("error 3\n");
-	ft_draw_scene();
-//	printf("error 4\n");
-	mlx_hook(e->win, 2, 0, ft_hook, e);
-	mlx_hook(e->win, 17, 0, ft_exit, e);
-	mlx_loop(e->mlx);
-	return ;
-}
-
-/*
-** Check file, set environment and draw scene
-*/
-
-int		main(int argc, char **argv)
-{
-//	printf("debug1\n");
 	if (argc != 2)
-	{
-		ft_putstr("usage: ./rtv1 scene_file\n");
-		return (0);
-	}
-	else
-	{
-//		printf("debug2\n");
-		if (ft_set_env(argv[1]) == ERROR)
-		{
-			ft_putstr("Env could not be set.\n");
-			exit(1);
-		}
-//		printf("error 1\n");
-		ft_put_env();
-		ft_render();
-//		printf("error 2\n");
-	}
+		return (ft_usage(0));
+	if ((fd = ft_open(argv[1])) < 0)
+		return (1);
+	init_env(&setup);
+	parse_bin(&setup, fd);
+	print_data(&setup);
+	rt_mlx_init(&setup);
+	rt_mlx_loop(&setup);
 	return (0);
 }

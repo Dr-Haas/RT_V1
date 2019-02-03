@@ -3,249 +3,120 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghaas <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rmarracc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/04 19:24:26 by ghaas             #+#    #+#             */
-/*   Updated: 2019/01/06 18:38:18 by rmarracc         ###   ########.fr       */
+/*   Created: 2019/01/22 08:11:00 by rmarracc          #+#    #+#             */
+/*   Updated: 2019/01/28 11:46:45 by rmarracc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef RTV1_H
 # define RTV1_H
 
-# include "libft/libft.h"
-# include "librt/librt.h"
 # include "../minilibx_macos/mlx.h"
-# include "stdio.h"
+# include "../libft/libft.h"
+# include "../libft/ft_printf/ft_printf.h"
+# include "../librt/librt.h"
+# include <stdint.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <math.h>
 
-# define WIDTH		300
-# define HEIGHT		300
-# define PI			3.14159265359
-# define INV_PI		0.31830988618 
-# define EPSILON	0.00001
-# define OK			0
-# define ERROR		1
+# define XSIZE		1200
+# define YSIZE		1200
+# define FOV		90
+# define INF		1000000
 
-/*
-** This camera structure contain variables
-** used to rotate our polar camera around its anchor
-*/
-
-typedef struct	s_camera
+typedef struct		s_camera
 {
-	double		fov;
-	t_vec		anchor;
-	double		radius;
-	double		lon;
-	double		lat;
-	t_vec		world;
-	t_vec		reltv;
-	t_vec		polar;
-	t_vec		xaxis;
-	t_vec		yaxis;
-	t_vec		zaxis;
-	t_m4b4		ctow;
-	t_m4b4		wtoc;
-}				t_camera;
+	int16_t			pos[3];
+	int16_t			dir[3];
+}					t_camera;
 
-/*
-** This light structure contain all variables used to illuminate the scene
-*/
-
-typedef struct	s_light
+typedef struct		s_light
 {
-	double		lum;
-	t_vec		rgb;
-	t_vec		origin;
-}				t_light;
+	uint32_t		pow;
+	int16_t			pos[3];
+	int16_t			dir[3];
+	uint32_t		rgb;
+}					t_light;
 
-/*
-** This rgb structure contain all variables used to illuminate the scene
-*/
-/*typedef	struct s_rgb
+typedef struct		s_object
 {
-	double	red;
-	double	green;
-	double	blue;
-}				t_rgb;
-*/
-/*
-** This object structure contain all variables used to interpret and draw objects
-*/
+	uint8_t			type;
+	int16_t			pos[3];
+	int16_t			norm[3];
+	uint32_t		rgb;
+	uint8_t			radius;
+	uint8_t			specular;
+}					t_object;
 
-typedef struct	s_object
+typedef struct		s_inter
 {
-	char		*type;
-	t_vec		scale;
-	t_vec		origin;
-	t_vec		rot;
-	t_vec		dir;
-	t_m3b3		linear_otow;
-	t_m3b3		linear_wtoo;
-	t_m4b4		otow;
-	t_m4b4		wtoo;
-	t_m3b3		ntow;
-	t_vec       rgb;
-}				t_object;
+	double			dist;
+	uint32_t		color;
+	t_vec			p;
+	t_vec			norm;
+}					t_inter;
 
-
-/*
-** This environment structure contain all variables used by the MiniLibX
-** and three lists containing cameras, lights and objects
-*/
-
-typedef struct	s_env
+typedef struct		s_disp
 {
-	char		name[5];
-	int			w;
-	int			h;
-	void		*mlx;
-	void		*win;
-	void		*pic;
-	int			*stp;
-	int			pa;
-	int			pb;
-	int			pc;
-	t_camera       cam;
-	t_light		llight[10];
-	int			llight_len;
-	t_object		lobj[30];
-	int			lobj_len;
+	double			ret;
+	double			d;
+	double			df;
+	double			sp;
+}					t_disp;
 
-}				t_env;
-
-/*
-** This ray structure contain origin and direction of a ray
-*/
-
-typedef struct	s_ray
+typedef struct		s_calc
 {
-	t_vec		origin;
-	t_vec		dir;
-	double 		t;
-}				t_ray;
+	t_vec			tmp1;
+	t_vec			tmp2;
+	t_vec			tmp3;
+	double			d1;
+	double			d2;
+	double			d3;
+	double			delta;
+	double			r1;
+	double			r2;
+	double			res;
+	double			m;
+	t_vec			c;
+}					t_calc;
 
-/*
-**	This shader structure contain all value for the color calculation
-*/
-
-typedef struct s_shader
+typedef struct		s_ray
 {
-	t_ray	lray;
-//	t_vec	hitpos;
-//	t_vec	light;
-//	double	dist;
-	t_vec	iray_ws_dir;
-	double	dist_sqrd;
-	t_vec	reflect;
-	t_vec	normal;
-	double	angle;
-	t_vec	diff;
-	t_vec	spec;
-}				t_shader;
+	t_vec			origin;
+	t_vec			dir;
+}					t_ray;
 
-/*
-** This calculation structure contain all variables used to calculate 
-** intersection between rays and objects
-*/
-
-typedef struct	s_cal
+typedef struct		s_env
 {
-	double		radius;
-	t_vec		origin;
-	t_vec		dir;
-	double		alpha;
-	double		a;
-	double		b;
-	double		c;
-	double		delta;
-	double		t[2];
-}				t_cal;
+	t_list			*light;
+	t_list			*obj;
+	t_camera		cam;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	uint32_t		*addr;
+}					t_env;
 
-/*
-** main.c functions
-*/
-int				main(int argc, char **argv);
-void			ft_render(void);
-int				ft_hook(int key, t_env *e);
-void			ft_fill_scene(void);
-
-/*
-** ft_get_env.c function
-*/
-t_env			*ft_get_env(void);
-
-/*
-** ft-set_obj.c functions
-*/
-int				ft_set_obj(char **fc, t_object *ao);
-void			ft_set_objvar(char *line, t_object *ao);
-void			ft_init_object(t_object *o);
-
-/*
-** ft_set_env(.c function
-*/
-int				ft_set_env(char *file);
-void			ft_free_fcpy(char **fcpy);
-int				ft_set_lig(char **fc, t_light *al);
-int				ft_set_cam(char **fc, t_camera *ac);
-
-/*
-** ft_lfill.c functions
-*/
-void			ft_lfill(t_list **alst, void const *c, size_t cs);
-
-
-/*
-** ft_file_copy.c functions
-*/
-char			**ft_file_copy(char *file, int i, int exp);
-int				ft_checkbrack(char **fcopy);
-
-
-/*
-** main.c functions
-*/
-int				ft_filecheck(char *file);
-int				ft_str_check(char *line);
-int				ft_val_check(char *line);
-int				ft_tab_check(char *line);
-int				ft_file_check(char *file);
-
-
-/*
-** ft_put_env.c functions
-*/
-void			ft_put_env(void);
-void			ft_put_object(t_object o);
-void			ft_put_light(t_light l);
-void			ft_put_camera(t_camera c);
-void			ft_putcoor(char *str, t_vec v);
-
-
-/*
-** ft_intersect.c functions
-*/
-int				ft_intersect(t_env *e, t_ray ray_ws, t_object *ahit_obj, t_ray *res_os);
-
-/*
-** ft_draw_scene.c functions
-*/
-void			ft_draw_scene(void);
-t_vec			ft_raytrace(t_env *e, t_ray incident_ray);
-void			ft_initcamera(t_camera *c);
-
-
-/*
-** ft_get_color.c function
-*/
-t_vec			ft_get_color(t_object obj, t_ray ray_os, t_light light);
-void			ft_get_shader(t_shader *shader, t_object obj, t_ray iray_os);
-void			ft_get_spec(t_shader *shader, t_object obj, t_ray iray_os, t_light light);
-void			ft_get_diff(t_shader *shader, t_object obj, t_light light);
-unsigned int 	color_app_lum(t_vec rgb);
-double			ft_fmax(double nb_1, double nb_2);
-double			ft_fmin(double nb_1, double nb_2);
+void				parse_bin(t_env *setup, int fd);
+void				delelem(void *data, size_t size);
+void				print_data(t_env *setup);
+void				rt_mlx_init(t_env *setup);
+void				rt_mlx_loop(t_env *setup);
+void				raytrace(t_env *setup, int i, int j);
+uint32_t			ft_intersect(t_env *setup, t_ray incid);
+uint32_t			color_mult(uint32_t rgb, double ratio);
+t_inter				ft_equation(t_calc equ, t_object cur, t_ray incid);
+uint32_t			get_color(t_env *setup, t_ray incid, t_inter it,
+		t_object o);
+t_inter				ft_intersectsphere(t_ray incid, t_object cur);
+t_inter				ft_intersectplane(t_ray incid, t_object cur);
+t_inter				ft_intersectcone(t_ray incid, t_object cur);
+t_inter				ft_intersectcylinder(t_ray incid, t_object cur);
+t_inter				intersect_type(t_object cur, t_ray incid, t_inter inter);
+t_vec				pos_to_vec(t_light cur);
+uint8_t				bool_s(t_object o);
 
 #endif

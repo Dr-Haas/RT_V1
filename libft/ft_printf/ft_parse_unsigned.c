@@ -6,7 +6,7 @@
 /*   By: rmarracc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 17:40:20 by rmarracc          #+#    #+#             */
-/*   Updated: 2018/11/29 22:52:22 by rmarracc         ###   ########.fr       */
+/*   Updated: 2019/01/20 04:39:22 by rmarracc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static int	ft_res_unsigned(t_arg *flag, int ret, size_t nb, char prefix)
 	size = unsigned_size(nb, "0123456789", 0);
 	p_zero = flag->precision - size;
 	if (flag->width > flag->precision)
-		p_space = flag->width - ft_max(flag->precision, size) -
-			(prefix != '\0');
+		p_space = flag->width - ft_max(flag->precision, size)
+			- (prefix != '\0');
 	else
 		p_space = 0;
 	if (p_space > 0 && flag->minus <= 0)
